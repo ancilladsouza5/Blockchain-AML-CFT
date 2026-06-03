@@ -1,0 +1,435 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.sim{padding:1rem 0;display:flex;flex-direction:column;gap:16px}
+.top-bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.top-bar h2{font-size:16px;font-weight:500;color:var(--color-text-primary);flex:1}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+.badge-live{background:var(--color-background-success);color:var(--color-text-success)}
+.badge-chain{background:var(--color-background-info);color:var(--color-text-info)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem}
+.card h3{font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+.metric-val{font-size:22px;font-weight:500;color:var(--color-text-primary)}
+.metric-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.flow-wrap{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem;overflow-x:auto}
+.flow-title{font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:12px;text-transform:uppercase;letter-spacing:.04em}
+.flow{display:flex;align-items:center;gap:0;flex-wrap:nowrap;min-width:600px}
+.fstep{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:80px}
+.fstep-box{width:70px;height:52px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:10px;font-weight:500;line-height:1.2;transition:all .4s;border:0.5px solid transparent;cursor:default;padding:4px}
+.fstep-label{font-size:10px;color:var(--color-text-tertiary);text-align:center;max-width:80px}
+.farrow{width:28px;font-size:16px;color:var(--color-text-tertiary);text-align:center;flex-shrink:0;align-self:center;margin-bottom:18px}
+.farrow.branch{transform:rotate(45deg)}
+.f-blue{background:#E6F1FB;color:#0C447C;border-color:#378ADD !important}
+.f-orange{background:#FEF3E2;color:#854F0B;border-color:#EF9F27 !important}
+.f-purple{background:#EEEDFE;color:#3C3489;border-color:#7F77DD !important}
+.f-green{background:#EAF3DE;color:#27500A;border-color:#639922 !important}
+.f-red{background:#FCEBEB;color:#791F1F;border-color:#E24B4A !important}
+.f-gold{background:#FAEEDA;color:#633806;border-color:#BA7517 !important}
+.f-teal{background:#E1F5EE;color:#085041;border-color:#1D9E75 !important}
+.f-gray{background:var(--color-background-secondary);color:var(--color-text-secondary);border-color:var(--color-border-secondary) !important}
+.f-active{box-shadow:0 0 0 2px currentColor;transform:scale(1.08)}
+.tx-form{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;display:flex;flex-direction:column;gap:10px}
+.tx-form h3{font-size:13px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center}
+.form-row label{font-size:13px;color:var(--color-text-secondary)}
+.form-row select,.form-row input{height:34px;padding:0 10px;font-size:13px;border-radius:6px}
+.btn-run{height:36px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;width:100%;margin-top:4px;background:var(--color-background-info);color:var(--color-text-info);border:0.5px solid var(--color-border-info);transition:opacity .2s}
+.btn-run:hover{opacity:.85}
+.btn-run:disabled{opacity:.5;cursor:not-allowed}
+.result-card{border-radius:var(--border-radius-lg);padding:1rem 1.25rem;border:0.5px solid transparent;display:none;animation:fadeIn .4s}
+.result-approve{background:var(--color-background-success);border-color:var(--color-border-success)}
+.result-flag{background:var(--color-background-warning);border-color:var(--color-border-warning)}
+.result-block{background:var(--color-background-danger);border-color:var(--color-border-danger)}
+.result-title{font-size:15px;font-weight:500;margin-bottom:6px}
+.result-approve .result-title{color:var(--color-text-success)}
+.result-flag .result-title{color:var(--color-text-warning)}
+.result-block .result-title{color:var(--color-text-danger)}
+.result-detail{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.risk-bar-wrap{margin-top:10px}
+.risk-bar-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;display:flex;justify-content:space-between}
+.risk-bar-bg{background:var(--color-background-secondary);border-radius:20px;height:8px;overflow:hidden}
+.risk-bar-fill{height:8px;border-radius:20px;transition:width .7s cubic-bezier(.4,0,.2,1)}
+.gnn-wrap{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem}
+.gnn-title{font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em}
+.ledger-wrap{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem}
+.ledger-title{font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+.ledger-table{width:100%;border-collapse:collapse;font-size:12px}
+.ledger-table th{color:var(--color-text-secondary);font-weight:500;padding:4px 8px;text-align:left;border-bottom:0.5px solid var(--color-border-tertiary)}
+.ledger-table td{padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);font-family:var(--font-mono,monospace);font-size:11px}
+.ledger-table tr:last-child td{border-bottom:none}
+.verdict-approve{color:var(--color-text-success);font-weight:500}
+.verdict-flag{color:var(--color-text-warning);font-weight:500}
+.verdict-block{color:var(--color-text-danger);font-weight:500}
+.rules-list{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.rule-item{display:flex;align-items:center;gap:8px;font-size:12px;padding:6px 10px;border-radius:6px;background:var(--color-background-secondary)}
+.rule-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.rule-dot.triggered{background:#E24B4A}
+.rule-dot.ok{background:#639922}
+.rule-text{color:var(--color-text-primary)}
+.hash-line{font-family:var(--font-mono,monospace);font-size:10px;color:var(--color-text-tertiary);word-break:break-all;margin-top:8px;padding:6px 8px;background:var(--color-background-secondary);border-radius:6px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#1D9E75;display:inline-block;margin-right:4px;animation:pulse 1.5s infinite}
+</style>
+
+<div class="sim">
+  <div class="top-bar">
+    <h2><i class="ti ti-shield-check" style="font-size:18px;vertical-align:-3px;margin-right:6px" aria-hidden="true"></i>AML/CFT Blockchain Simulator</h2>
+    <span class="badge badge-live"><span class="live-dot"></span>Live</span>
+    <span class="badge badge-chain">Permissioned Ledger</span>
+  </div>
+
+  <!-- Metrics -->
+  <div class="grid3">
+    <div class="card">
+      <h3>Transactions</h3>
+      <div class="metric-val" id="m-tx">0</div>
+      <div class="metric-sub">Processed today</div>
+    </div>
+    <div class="card">
+      <h3>Flagged</h3>
+      <div class="metric-val" id="m-flag" style="color:var(--color-text-warning)">0</div>
+      <div class="metric-sub">Sent to regulator</div>
+    </div>
+    <div class="card">
+      <h3>Blocked</h3>
+      <div class="metric-val" id="m-block" style="color:var(--color-text-danger)">0</div>
+      <div class="metric-sub">Hard stops</div>
+    </div>
+  </div>
+
+  <!-- Blockchain Pipeline Flow -->
+  <div class="flow-wrap">
+    <div class="flow-title">Blockchain AML pipeline</div>
+    <div class="flow" id="pipeline">
+      <div class="fstep">
+        <div class="fstep-box f-blue" id="s1">Tx Init<br>User→Bank</div>
+        <div class="fstep-label">Step 1</div>
+      </div>
+      <div class="farrow">→</div>
+      <div class="fstep">
+        <div class="fstep-box f-blue" id="s2">Send to<br>Network</div>
+        <div class="fstep-label">Step 2</div>
+      </div>
+      <div class="farrow">→</div>
+      <div class="fstep">
+        <div class="fstep-box f-orange" id="s3">Oracle<br>Layer</div>
+        <div class="fstep-label">Validate</div>
+      </div>
+      <div class="farrow">→</div>
+      <div class="fstep">
+        <div class="fstep-box f-purple" id="s4">Blockchain<br>Record</div>
+        <div class="fstep-label">Immutable</div>
+      </div>
+      <div class="farrow">→</div>
+      <div class="fstep">
+        <div class="fstep-box f-green" id="s5">Smart<br>Contract</div>
+        <div class="fstep-label">AML Rules</div>
+      </div>
+      <div class="farrow">→</div>
+      <div class="fstep">
+        <div class="fstep-box f-red" id="s6">AI/ML<br>GNN</div>
+        <div class="fstep-label">Risk Score</div>
+      </div>
+      <div class="farrow">→</div>
+      <div class="fstep">
+        <div class="fstep-box f-gold" id="s7">Decision</div>
+        <div class="fstep-label">Approve/Flag/Block</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transaction Builder + Result -->
+  <div class="grid2">
+    <div class="tx-form">
+      <h3>Submit transaction</h3>
+      <div class="form-row">
+        <label>From account</label>
+        <select id="from-acc">
+          <option value="A">Account A (Source)</option>
+          <option value="B">Account B</option>
+          <option value="C">Account C</option>
+          <option value="E">Account E</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>To account</label>
+        <select id="to-acc">
+          <option value="B">Account B</option>
+          <option value="C">Account C</option>
+          <option value="F">Account F — Mule ⚠</option>
+          <option value="G">Account G</option>
+          <option value="D">Account D</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Amount (₹)</label>
+        <input type="number" id="amount" value="10000" min="100" max="500000">
+      </div>
+      <div class="form-row">
+        <label>Type</label>
+        <select id="tx-type">
+          <option>NEFT</option>
+          <option>RTGS</option>
+          <option>IMPS</option>
+          <option>Crypto transfer</option>
+          <option>International wire</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Pattern</label>
+        <select id="pattern">
+          <option value="normal">Normal</option>
+          <option value="smurfing">Smurfing (split txs)</option>
+          <option value="layering">Layering (circular)</option>
+          <option value="mule">Mule account route</option>
+          <option value="rapid">Rapid-fire burst</option>
+        </select>
+      </div>
+      <button class="btn-run" id="run-btn" onclick="runSimulation()">Run Simulation →</button>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <!-- Result -->
+      <div class="result-card" id="result-card">
+        <div class="result-title" id="result-title"></div>
+        <div class="result-detail" id="result-detail"></div>
+        <div class="risk-bar-wrap">
+          <div class="risk-bar-label"><span>Risk score</span><span id="risk-pct">0%</span></div>
+          <div class="risk-bar-bg"><div class="risk-bar-fill" id="risk-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <!-- AML Rules triggered -->
+      <div class="card" id="rules-card" style="display:none">
+        <h3>AML rules check</h3>
+        <div class="rules-list" id="rules-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GNN Network + Ledger -->
+  <div class="grid2">
+    <div class="gnn-wrap">
+      <div class="gnn-title">GNN fraud network graph</div>
+      <svg width="100%" viewBox="0 0 300 230" role="img"><title>GNN account network</title>
+        <defs>
+          <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+        <!-- Edges -->
+        <line id="eAB" x1="150" y1="30" x2="220" y2="80" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <line id="eBC" x1="220" y1="90" x2="220" y2="140" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <line id="eCD1" x1="210" y1="150" x2="155" y2="190" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <line id="eCD2" x1="220" y1="150" x2="280" y2="190" stroke="#B5D4F4" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <line id="eBF" x1="222" y1="82" x2="282" y2="185" stroke="#F09595" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <line id="eAF" x1="152" y1="32" x2="280" y2="185" stroke="#F09595" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arr2)"/>
+        <!-- Return flow -->
+        <path id="eReturn" d="M275 190Q50 190 148 38" fill="none" stroke="#E24B4A" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#arr2)" opacity="0.7"/>
+        <!-- Nodes -->
+        <g id="nA"><circle cx="150" cy="28" r="18" fill="#E6F1FB" stroke="#378ADD" stroke-width="1.5"/><text x="150" y="32" text-anchor="middle" font-size="11" font-weight="500" fill="#0C447C">A</text></g>
+        <g id="nB"><circle cx="222" cy="82" r="15" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/><text x="222" y="86" text-anchor="middle" font-size="11" font-weight="500" fill="#185FA5">B</text></g>
+        <g id="nC"><circle cx="222" cy="148" r="15" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/><text x="222" y="152" text-anchor="middle" font-size="11" font-weight="500" fill="#185FA5">C</text></g>
+        <g id="nD"><circle cx="148" cy="196" r="14" fill="#E6F1FB" stroke="#378ADD" stroke-width="1"/><text x="148" y="200" text-anchor="middle" font-size="11" fill="#185FA5">D</text></g>
+        <g id="nE"><circle cx="148" cy="220" r="0" fill="none"/></g>
+        <g id="nG"><circle cx="285" cy="220" r="13" fill="#E6F1FB" stroke="#B5D4F4" stroke-width="0.5"/><text x="285" y="224" text-anchor="middle" font-size="11" fill="#185FA5">G</text></g>
+        <g id="nF"><circle cx="285" cy="193" r="17" fill="#FCEBEB" stroke="#E24B4A" stroke-width="2"/><text x="285" y="197" text-anchor="middle" font-size="11" font-weight="600" fill="#A32D2D">F</text></g>
+        <!-- Labels -->
+        <text x="182" y="52" text-anchor="middle" font-size="9" fill="#185FA5">10K</text>
+        <text x="228" y="118" text-anchor="middle" font-size="9" fill="#185FA5">9K</text>
+        <text x="178" y="178" text-anchor="middle" font-size="9" fill="#185FA5">8K</text>
+        <text x="258" y="175" text-anchor="middle" font-size="9" fill="#A32D2D">5K</text>
+        <text x="256" y="130" text-anchor="middle" font-size="9" fill="#A32D2D">5K</text>
+        <text x="90" y="125" text-anchor="middle" font-size="9" fill="#E24B4A">Return flow</text>
+        <text x="285" y="212" text-anchor="middle" font-size="9" fill="#185FA5">Final</text>
+        <!-- Mule label -->
+        <text x="285" y="178" text-anchor="middle" font-size="9" fill="#A32D2D">Mule</text>
+        <!-- GNN risk indicators -->
+        <circle id="risk-a" cx="162" cy="18" r="5" fill="#E24B4A" opacity="0" />
+        <circle id="risk-f" cx="297" cy="183" r="5" fill="#E24B4A" opacity="0"/>
+      </svg>
+    </div>
+
+    <div class="ledger-wrap">
+      <div class="ledger-title"><i class="ti ti-database" style="font-size:13px;vertical-align:-1px;margin-right:4px" aria-hidden="true"></i>Immutable blockchain ledger</div>
+      <table class="ledger-table">
+        <thead>
+          <tr><th>Block</th><th>From→To</th><th>Amt</th><th>Verdict</th></tr>
+        </thead>
+        <tbody id="ledger-body">
+          <tr><td colspan="4" style="color:var(--color-text-tertiary);text-align:center;padding:12px 0">No transactions yet</td></tr>
+        </tbody>
+      </table>
+      <div class="hash-line" id="hash-line">Chain hash: waiting for first transaction...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let stats = {tx:0, flag:0, block:0};
+let ledger = [];
+let blockNum = 1000;
+let animTimer = null;
+
+const STEPS = ['s1','s2','s3','s4','s5','s6','s7'];
+
+function hashStr(s){
+  let h=0;
+  for(let c of s){h=((h<<5)-h)+c.charCodeAt(0);h|=0;}
+  return Math.abs(h).toString(16).padStart(8,'0').toUpperCase();
+}
+
+function riskColor(score){
+  if(score<35) return '#639922';
+  if(score<65) return '#BA7517';
+  return '#E24B4A';
+}
+
+function animatePipeline(steps, onDone){
+  let i=0;
+  clearPipeline();
+  if(animTimer) clearInterval(animTimer);
+  animTimer = setInterval(()=>{
+    if(i>0) document.getElementById(STEPS[i-1]).classList.remove('f-active');
+    if(i<steps.length){
+      document.getElementById(steps[i]).classList.add('f-active');
+      i++;
+    } else {
+      clearInterval(animTimer);
+      if(onDone) onDone();
+    }
+  }, 350);
+}
+
+function clearPipeline(){
+  STEPS.forEach(s=>{
+    let el=document.getElementById(s);
+    if(el) el.classList.remove('f-active');
+  });
+}
+
+function runSimulation(){
+  const from = document.getElementById('from-acc').value;
+  const to = document.getElementById('to-acc').value;
+  const amount = parseInt(document.getElementById('amount').value)||10000;
+  const type = document.getElementById('tx-type').value;
+  const pattern = document.getElementById('pattern').value;
+
+  // Hide prev result
+  document.getElementById('result-card').style.display='none';
+  document.getElementById('rules-card').style.display='none';
+  document.getElementById('run-btn').disabled=true;
+
+  // Determine risk score + rules
+  let risk = 10;
+  let rules = [];
+  let verdict = 'approve';
+  let reasons = [];
+
+  // Amount checks
+  if(amount >= 200000){ risk+=35; rules.push({ok:false,text:'Amount exceeds ₹2,00,000 threshold'}); }
+  else { rules.push({ok:true,text:'Amount within normal range'}); }
+
+  if(amount > 9000 && amount < 10000){ risk+=20; rules.push({ok:false,text:'Structuring detected (just below 10K)'}); }
+  else { rules.push({ok:true,text:'No structuring pattern detected'}); }
+
+  // Destination checks
+  if(to==='F'){ risk+=50; rules.push({ok:false,text:'Destination is flagged mule account (F)'}); }
+  else { rules.push({ok:true,text:'Destination not in mule watchlist'}); }
+
+  // Pattern checks
+  if(pattern==='smurfing'){ risk+=30; rules.push({ok:false,text:'Smurfing: multiple split transactions detected'}); reasons.push('Split transactions'); }
+  else if(pattern==='layering'){ risk+=35; rules.push({ok:false,text:'Layering: circular return flow detected (A→...→A)'}); reasons.push('Circular flow'); }
+  else if(pattern==='mule'){ risk+=40; rules.push({ok:false,text:'Mule routing: funds routed via flagged intermediary'}); reasons.push('Mule chain'); }
+  else if(pattern==='rapid'){ risk+=25; rules.push({ok:false,text:'Rapid-fire: >5 txs in 10 mins from same account'}); reasons.push('Velocity breach'); }
+  else { rules.push({ok:true,text:'Transaction pattern normal'}); }
+
+  // Crypto/international
+  if(type==='Crypto transfer'||type==='International wire'){ risk+=15; rules.push({ok:false,text:'High-risk channel: '+type}); }
+  else { rules.push({ok:true,text:'Standard channel'}); }
+
+  // Same account
+  if(from===to){ risk+=60; rules.push({ok:false,text:'Self-transfer: same source and destination'}); }
+
+  risk = Math.min(risk, 100);
+
+  // GNN boost
+  if(to==='F'||pattern==='mule'){ risk = Math.min(risk+15,100); }
+
+  if(risk>=70) verdict='block';
+  else if(risk>=35) verdict='flag';
+
+  // Run pipeline animation
+  animatePipeline(STEPS, ()=>{
+    showResult(from, to, amount, type, pattern, risk, verdict, rules, reasons);
+    document.getElementById('run-btn').disabled=false;
+  });
+}
+
+function showResult(from, to, amount, type, pattern, risk, verdict, rules, reasons){
+  // Update stats
+  stats.tx++;
+  if(verdict==='flag') stats.flag++;
+  if(verdict==='block') stats.block++;
+  document.getElementById('m-tx').textContent=stats.tx;
+  document.getElementById('m-flag').textContent=stats.flag;
+  document.getElementById('m-block').textContent=stats.block;
+
+  // Result card
+  const rc = document.getElementById('result-card');
+  rc.className = 'result-card result-'+verdict;
+  rc.style.display='block';
+
+  const icons = {approve:'✅',flag:'⚠',block:'🚫'};
+  const titles = {approve:'Approved — Transaction cleared',flag:'Flagged — Sent to regulator',block:'Blocked — Transaction rejected'};
+  document.getElementById('result-title').textContent = icons[verdict]+' '+titles[verdict];
+
+  let detail = `Account ${from} → Account ${to} | ₹${amount.toLocaleString()} | ${type}`;
+  if(reasons.length) detail += ` | Triggers: ${reasons.join(', ')}`;
+  if(verdict==='flag') detail += '\n\nBlockchain record created. Real-time alert sent to regulator dashboard. Human review required within 24h per PMLA guidelines.';
+  if(verdict==='block') detail += '\n\nSmart contract executed automatic block. Immutable record on permissioned ledger. FATF STR report auto-generated.';
+  if(verdict==='approve') detail += '\n\nTransaction recorded on immutable ledger. Oracle validated, smart contract cleared all AML rules.';
+  document.getElementById('result-detail').textContent=detail;
+
+  const fill = document.getElementById('risk-fill');
+  fill.style.width='0%';
+  fill.style.background=riskColor(risk);
+  setTimeout(()=>{ fill.style.width=risk+'%'; },50);
+  document.getElementById('risk-pct').textContent=risk+'%';
+
+  // Rules
+  const rl = document.getElementById('rules-list');
+  rl.innerHTML='';
+  rules.forEach(r=>{
+    const d=document.createElement('div');
+    d.className='rule-item';
+    d.innerHTML=`<span class="rule-dot ${r.ok?'ok':'triggered'}"></span><span class="rule-text">${r.text}</span>`;
+    rl.appendChild(d);
+  });
+  document.getElementById('rules-card').style.display='block';
+
+  // GNN highlight
+  document.getElementById('risk-a').style.opacity = risk>50?'1':'0';
+  document.getElementById('risk-f').style.opacity = (to==='F'||risk>65)?'1':'0';
+
+  // Ledger
+  blockNum++;
+  const chain = hashStr(blockNum+from+to+amount+verdict+Date.now());
+  ledger.unshift({block:blockNum, from, to, amount, verdict, hash:chain});
+  if(ledger.length>5) ledger.pop();
+
+  const lb = document.getElementById('ledger-body');
+  lb.innerHTML = ledger.map(tx=>`
+    <tr>
+      <td>#${tx.block}</td>
+      <td>${tx.from}→${tx.to}</td>
+      <td>₹${tx.amount.toLocaleString()}</td>
+      <td class="verdict-${tx.verdict}">${tx.verdict.toUpperCase()}</td>
+    </tr>
+  `).join('');
+  document.getElementById('hash-line').textContent=`Chain hash: 0x${chain}...${hashStr(chain).slice(0,6)}`;
+}
+</script>
