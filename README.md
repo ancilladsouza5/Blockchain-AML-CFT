@@ -1,55 +1,43 @@
-# Blockchain AML/CFT Monitoring & Rules Engine
+# Blockchain-Based AML/CFT Monitoring & Financial Crime Detection
 
-An enterprise-grade, decentralized real-time financial surveillance system designed to detect and intercept cross-border financial crime. This framework replaces legacy retrospective batch auditing with preventative, on-chain smart contract validation hooks, backed by Graph Neural Network (GNN) analytics.
+An enterprise fintech framework that replaces isolated banking database silos with a decentralized, real-time approach to cross-border financial surveillance. The system fuses permissioned ledgers, smart contracts, and deep Graph Neural Networks (GNN) to track illicit financial trails.
 
----
-
-## Key Framework Pillars
-
-* **In-Flight Validation Engine:** Evaluates transactional parameters natively before block settlement occurs.
-* **Unified Ledger Topology:** Replaces disconnected bank data silos with a shared, permissioned consensus state.
-* **Deep Network Tracking:** Maps complex multi-hop layering schemes using graph clustering algorithms.
+## Live Demonstration
+The codebase features a functional, standalone web interface (`AML_Interactive_Briefing.html`) that simulates active network consensus and graph tracking parameters synchronously.
 
 ---
 
-## System Architecture & Workflow
+## Core Capabilities
 
-The system is split into three foundational layers, mapped directly by the included system design schematics:
-
-### 1. Network Node Topology (`AML-BLOCKCHAIN-ARCHITECTURE.png`)
-* Integrates an **Oracle Bridge Router** to safely ingest transactions from traditional legacy Core Banking Systems (CBS).
-* Distributes transaction verification across a network of trusted **Validator Bank Nodes** and regulatory monitoring nodes.
-
-### 2. Synchronous Settlement Pipeline (`AML-BLOCKCHAIN-WORKFLOW.png`)
-* Intercepts transaction flight requests post-initiation.
-* Routes payloads through smart contract constraints where rules are evaluated via Byzantine Fault Tolerant (**IBFT 2.0**) consensus before committing state immutably.
-
-### 3. Behavioral Fraud Network (`GNN-FRAUD-NETWORK.png`)
-* Implements **Graph Neural Networks (GNN)** to identify suspicious structural transaction clustering.
-* Exposes advanced multi-hop placement and layering loops spanning across 10+ proxy account hops.
+* **Unified Ledger State:** Eliminates cross-border tracking delays by maintaining a single, shared view of transactions across international banking networks.
+* **Smart Contract Automation:** Instantly triggers compliance alerts and enforces transaction limits or blocks on-chain without waiting for manual audits.
+* **GNN Behavior Learning:** Maps transactions to expose complex, multi-hop layering loops and hidden shell account structures.
+* **Federated Learning Privacy:** Trains predictive AI models locally at individual bank nodes to protect sensitive customer data and comply with privacy laws.
 
 ---
 
-## Interactive Presentation & Prototype
+## System Architecture & Workflows
 
-The repository contains an all-in-one interactive web-based interface: `AML_Interactive_Briefing.html`. 
+Here are the core workflow diagrams and structural frameworks designed for this project:
 
-### Features Built into the Interface:
-* **Live Rules Simulator:** Dynamic sliders to real-time test compliance criteria adjustments (Transaction Amount thresholds, Transfer Velocity, Account Incubation Age, and Sanction Match queries).
-* **On-Chain Log Stream:** A virtual terminal simulation displaying block rejection alerts and cryptographic state logs based on running parameter risks.
-* **Embedded Graphics:** Automatically pairs the code playground with the structural architecture layouts.
+### 1. System Architecture Layers
+This layout outlines the connection between legacy core banking infrastructures, the secure oracle routing bridge, and permissioned validator clusters.
+![Architecture](AML-BLOCKCHAIN-ARCHITECTURE.png)
 
-### How to Run Locally:
-1. Download the `AML_Interactive_Briefing.html` file from this repository.
-2. Ensure your three diagram files (`AML-BLOCKCHAIN-ARCHITECTURE.png`, `AML-BLOCKCHAIN-WORKFLOW.png`, and `GNN-FRAUD-NETWORK.png`) are located inside the **same directory folder**.
-3. Double-click the `.html` file to open it in any standard web browser (Chrome, Safari, Edge) to run the full presentation completely offline.
+### 2. In-Flight Transaction Lifecycle Workflow
+Traces the synchronous processing window tracking how pending transactions are held in a pool until smart contract verification requirements are fully met.
+![Workflow](AML-BLOCKCHAIN-WORKFLOW.png)
+
+### 3. Deep Graph Behavioral Neural Network (GNN) Model
+Visualizes multi-layered address linking maps used to isolate hidden circular asset routing and shell-entity placement clusters.
+![GNN Fraud Network](GNN-FRAUD-NETWORK.png)
 
 ---
 
-## Technical Rules Engine Specifications
+## Repository Directory Matrix
 
-The core simulation evaluates state entries across a multi-tiered risk weight hierarchy:
-* **Threshold Guard:** flag matches for transaction amounts $\ge$ ₹10,00,000 (+30% Risk Index weight).
-* **Velocity Sentinel:** triggers on automated transfer frequencies exceeding 3 transactions/hr (+25% Risk Index weight).
-* **Incubation Check:** tracks high-volume transfers routed through accounts active for less than 30 days (+20% Risk Index weight).
-* **Sanction Intercept:** immediate 100% risk index ceiling override and execution block on any wallet blacklist matches.
+* `AML_Interactive_Briefing.html` — The master presentation deck containing the live JavaScript interactive rules simulator engine.
+* `Blockchain_AMLCFT_Presentation.pptx` — The technical technology briefing slide presentation deck.
+* `AML-BLOCKCHAIN-ARCHITECTURE.png` — Structural block architecture system design blueprint.
+* `AML-BLOCKCHAIN-WORKFLOW.png` — Sequence flow logic for real-time transaction intercept pipelines.
+* `GNN-FRAUD-NETWORK.png` — Machine learning cluster network graph mapping proxy address anomalies.
