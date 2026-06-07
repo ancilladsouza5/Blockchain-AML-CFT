@@ -26,7 +26,6 @@ Here are the core workflow diagrams and structural frameworks designed for this 
 ### Deep Graph Behavioral Neural Network (GNN) Model
 ![GNN Fraud Network](GNN-Fraud-Network-Clean.png)
 
-###Live Stimulator - https://drive.google.com/file/d/18cE1L8owwMcNSvenc1calatqMJnReBC_/view?usp=sharing
 
 ## File Directory
 
